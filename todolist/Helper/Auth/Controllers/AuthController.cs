@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using todolist.Helper.Auth.Command;
-using todolist.Helper.Interface;
 using Microsoft.AspNetCore.Authorization;
 
 namespace todolist.Helper.Auth.Controllers
@@ -28,14 +27,15 @@ namespace todolist.Helper.Auth.Controllers
 
             return BadRequest();
         }
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginCommand command)
         {
-            string url = "/home";
-            Payload response = await _mediator.Send(command);
+      
+            string response = await _mediator.Send(command);
             if (response != null)
             {
-                return LocalRedirect(url);
+                return Ok(response);
             }
             return NotFound();
         }

@@ -5,9 +5,9 @@ namespace To_do_List.src.Modules.Task.Entity
 {
     public class TaskEntity : BaseEntity
     {
-        public required string Title { get; set; }
+        public  string Title { get; set; } = string.Empty;
         public List<TodoEntity>? Todo { get; set; }
         public UserEntity? User { get; set; } 
-        public required Guid UserId { get; set; }
+        public Guid UserId { get; set; } =  new Guid();
     }
 }

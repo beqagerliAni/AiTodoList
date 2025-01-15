@@ -1,8 +1,8 @@
-﻿using To_do_List.src.Modules.User.Entity;
+﻿using Microsoft.AspNetCore.Mvc;
+using To_do_List.src.Modules.User.Entity;
 using To_do_List.src.Modules.User.Model;
 using todolist.Helper.Auth.Command;
-using todolist.Helper.Cookie;
-using todolist.Helper.Interface;
+using todolist.Helper.Jwt;
 using todolist.src.Modules.User.Repository;
 namespace todolist.Helper.Auth.Service
 {
@@ -13,17 +13,19 @@ namespace todolist.Helper.Auth.Service
         {
             _userRepository = userRepository;
         }
-        public async Task<Payload> Login(LoginCommand command)
+        public async Task<string> Login(LoginCommand command)
         {
             UserModel user =   _userRepository.findByEmail(command.email); 
             
-            if(user != null && BCrypt.Net.BCrypt.Verify(command.password, user.password))
+            if(user != null && BCrypt.Net.BCrypt.Verify(command.password,user.password))
             {
                 if(user.Guuid ==null) { throw new Exception("asdsad"); }
 
                 Guid guid = (Guid)user.Guuid;
 
-                return  await AddCookie.AddCookieAuth(guid);
+                string token = await JwtGenerate.GenerateJwtAsync(1, guid);
+
+                return token;
             }
 
             throw new Exception("user not found");

@@ -1,14 +1,17 @@
 using System.Reflection;
+using System.Text;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
+using Scalar.AspNetCore;
 using To_do_List.src.Modules.Tasks.Repository;
 using To_do_List.src.Modules.User.Command;
 using todolist.Helper.Auth.Service;
+using todolist.Helper.Configuration;
+using todolist.Helper.Jwt;
 using todolist.src.Modules.User.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,11 +21,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(config =>
 {
-    var policy =  new AuthorizationPolicyBuilder()
+    var policy = new AuthorizationPolicyBuilder()
                       .RequireAuthenticatedUser()
                       .Build();
     config.Filters.Add(new AuthorizeFilter(policy));
-                                                   
+
 });
 
 //scope
@@ -30,7 +33,7 @@ builder.Services.AddControllers(config =>
 builder.Services.AddScoped<ITaskRepositroy, TaskRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-
+builder.Services.AddHttpContextAccessor();
 //mediator
 
 builder.Services.AddMediatR(typeof(CreateUser).Assembly);
@@ -39,38 +42,11 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 //swagger
 
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "To-Do List API", Version = "v1" });
-
-    // Add cookie-based authentication to Swagger
-    options.AddSecurityDefinition("cookieAuth", new OpenApiSecurityScheme
-    {
-        Type = SecuritySchemeType.ApiKey,
-        In = ParameterLocation.Cookie,
-        Name = CookieAuthenticationDefaults.AuthenticationScheme,
-        Scheme = CookieAuthenticationDefaults.AuthenticationScheme,
-        Description = "Enter your cookie for authentication."
-    });
-
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "cookieAuth"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
 
 
-var connectionstring = builder.Configuration.GetConnectionString("AppDbConnectionString");
+Configuration._configuration = builder.Configuration;
+string? connectionstring = builder.Configuration.GetConnectionString("AppDbConnectionString");
+Console.WriteLine(connectionstring);
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 40));
 // db
 
@@ -83,29 +59,34 @@ builder.Services.AddDbContext<appDbcontext>(options =>
 });
 
 // auth
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-        options.SlidingExpiration = true;
-        options.AccessDeniedPath = "/Forbidden/";
-    });
+builder.Services.AddAuthentication(
+    JwtBearerDefaults.AuthenticationScheme)
 
-builder.Services.AddAuthorization(options =>
+.AddJwtBearer(options =>
 {
-    options.AddPolicy("AdminPolicy",
-        policy => policy.RequireClaim("Admin"));
+     
+    string? key = builder.Configuration.GetConnectionString("SecurityKey");
+    if(key == null) { throw new ArgumentNullException(nameof(key)); }
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration.GetConnectionString("Issuer"),
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration.GetConnectionString("Audience")
+    };
 });
 
 var app = builder.Build();
+
 app.UseAuthentication();
-app.UseAuthorization();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapScalarApiReference();
 
 }
 

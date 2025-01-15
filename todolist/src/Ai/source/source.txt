@@ -1,0 +1,179 @@
+TaskDescription,Difficulty
+I should workout,Easy
+Prepare a report on market trends,Medium
+Develop a full-stack application,Hard
+Read a book,Easy
+Write a blog post,Medium
+Run a marathon,Hard
+Clean my room,Easy
+Learn a new programming language,Medium
+Build a machine learning model,Hard
+Take a 30-minute walk,Easy
+Design a company logo,Medium
+Organize a big event,Hard
+Cook dinner,Easy
+Write a simple script in Python,Medium
+Implement an algorithm in C++,Hard
+Water the plants,Easy
+Research cloud computing services,Medium
+Deploy a scalable web application,Hard
+Go grocery shopping,Easy
+Create a presentation on AI,Medium
+Build an e-commerce platform from scratch,Hard
+Wash my car,Easy
+Analyze sales data for insights,Medium
+Develop a custom AI model for image recognition,Hard
+Take the dog for a walk,Easy
+Edit a short video,Medium
+Create a full-length animated movie,Hard
+Prepare a sandwich,Easy
+Plan a small party,Medium
+Write a 300-page novel,Hard
+Meditate for 10 minutes,Easy
+Learn about neural networks,Medium
+Invent a new programming language,Hard
+Call a friend,Easy
+Organize my desk,Easy
+Prepare a budget for a project,Medium
+Design a space exploration rover,Hard
+Do yoga,Easy
+Research machine learning algorithms,Medium
+Optimize the performance of a distributed database,Hard
+Do the laundry,Easy
+Prepare for a job interview,Medium
+Build a quantum computing simulator,Hard
+Watch a movie,Easy
+Conduct a team meeting,Medium
+Write a scientific research paper,Hard
+Make a cup of coffee,Easy
+Plan a vacation itinerary,Medium
+Create a self-driving car prototype,Hard
+Go for a swim,Easy
+Learn the basics of web development,Medium
+Develop a new operating system,Hard
+Organize my photo album,Easy
+Write a tutorial on data analysis,Medium
+Create an AI that mimics human conversation,Hard
+Fix a leaky faucet,Easy
+Optimize the UI of a mobile app,Medium
+Implement a blockchain-based voting system,Hard
+Study for an exam,Easy
+Create a marketing strategy,Medium
+Design a smart home automation system,Hard
+Take a walk in the park,Easy
+Build a small game using Unity,Medium
+Develop a fully functional search engine,Hard
+Practice playing guitar,Easy
+Set up a personal blog,Medium
+Design a new encryption algorithm,Hard
+Dust the shelves,Easy
+Create an infographic for social media,Medium
+Automate a factory assembly line,Hard
+Write a thank-you note,Easy
+Plan a business meeting agenda,Medium
+Develop a robot capable of human interaction,Hard
+Fold the laundry,Easy
+Optimize the performance of a website,Medium
+Build an AI for real-time speech translation,Hard
+Organize a family dinner,Easy
+Write an essay on global warming,Medium
+Develop a virtual reality game,Hard
+Paint a picture,Easy
+Design a small office network,Medium
+Develop an AI-powered recommendation system,Hard
+Walk the dog,Easy
+Plan a fundraising event,Medium
+Create a secure payment gateway,Hard
+TaskDescription,Difficulty
+Learn how to juggle,Easy
+Write a short poem,Easy
+Bake a loaf of bread,Easy
+Water the garden,Easy
+Assemble a simple puzzle,Easy
+Call and wish a friend happy birthday,Easy
+Replace a lightbulb,Easy
+Organize the bookshelf,Easy
+Sort emails in the inbox,Easy
+Plan a picnic,Easy
+Sharpen pencils,Easy
+Walk a mile,Easy
+Read an article online,Easy
+Check the weather forecast,Easy
+Clean the kitchen counter,Easy
+Change the bedsheets,Easy
+Watch a documentary,Easy
+Fold towels,Easy
+Write a thank-you email,Easy
+Sing a song,Easy
+Prepare a monthly budget,Medium
+Learn basic Excel formulas,Medium
+Write a 2-page report on a topic,Medium
+Build a basic website,Medium
+Record a 5-minute video,Medium
+Prepare a presentation on renewable energy,Medium
+Write a product review,Medium
+Take a photography course online,Medium
+Learn how to use a new tool,Medium
+Fix a minor issue with the computer,Medium
+Learn how to edit videos,Medium
+Organize a small group meeting,Medium
+Plan a week’s worth of meals,Medium
+Research for a school project,Medium
+Create a to-do list for a trip,Medium
+Write a letter to an organization,Medium
+Clean out the garage,Medium
+Host a small gathering,Medium
+Learn how to use Photoshop,Medium
+Write a short tutorial on a hobby,Medium
+Design a marketing flyer,Medium
+Develop a chatbot,Hard
+Research and analyze climate change impacts,Hard
+Create a predictive analytics model,Hard
+Design an interactive user dashboard,Hard
+Build a recommendation engine,Hard
+Develop a new app prototype,Hard
+Write a thesis on artificial intelligence,Hard
+Plan and organize a company workshop,Hard
+Conduct an in-depth survey analysis,Hard
+Write a script for a short film,Hard
+Build a custom hardware device,Hard
+Perform a live coding demonstration,Hard
+Learn advanced data visualization techniques,Hard
+Write a book on personal development,Hard
+Prepare a keynote speech for a conference,Hard
+Develop a blockchain application,Hard
+Create a machine learning pipeline,Hard
+Optimize a large-scale database,Hard
+Plan a multi-country business trip,Hard
+Create an advanced financial model,Hard
+Write a complex algorithm for image recognition,Hard
+Design a neural network architecture,Hard
+Build a real-time stock market monitoring system,Hard
+Learn advanced calculus,Hard
+Prepare for an international competition,Hard
+Plan the logistics of a marathon,Hard
+Create a strategy for digital transformation,Hard
+Design an autonomous drone system,Hard
+Develop an enterprise resource planning system,Hard
+Write an application for patent approval,Hard
+Train a model to analyze genomic data,Hard
+Create a new type of encryption system,Hard
+Develop a large-scale simulation software,Hard
+Learn quantum mechanics concepts,Hard
+Host an international virtual event,Hard
+Manage a large remote team,Hard
+Write a proposal for government funding,Hard
+Create a sustainable energy blueprint,Hard
+Organize a global charity event,Hard
+Develop an AI-driven diagnostic tool,Hard
+Plan and build a tiny house,Hard
+Create a multilingual chatbot,Hard
+Design a real-time translation device,Hard
+Build a high-performance cloud server,Hard
+Write a textbook on advanced mathematics,Hard
+Plan and execute a corporate rebranding,Hard
+Design a self-sufficient farming system,Hard
+Conduct an environmental impact assessment,Hard
+Write a novel based on historical events,Hard
+Develop an AI model for fraud detection,Hard
+

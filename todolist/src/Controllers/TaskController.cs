@@ -10,17 +10,17 @@ namespace todolist.src.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
     public class TaskController : ControllerBase
     {
         private readonly IMediator _mediator;
-
+       
         public TaskController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpPost]
+        [Authorize]
         [Route("create")]
         public async Task<IActionResult> Create([FromBody] CreateTask command)
         {
@@ -54,9 +54,10 @@ namespace todolist.src.Controllers
         }
 
         [HttpPut]
-        [Route("update")]
-        public async Task<IActionResult> Update([FromBody] UpdateTask command)
+        [Route("update/{id}")]
+        public async Task<IActionResult> Update([FromBody] UpdateTask command, [FromRoute] string id)
         {
+            command.id = Guid.Parse(id);
             var result = await _mediator.Send(command);
             if (result)
             {

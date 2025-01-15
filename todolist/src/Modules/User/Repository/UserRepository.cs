@@ -16,12 +16,19 @@ namespace todolist.src.Modules.User.Repository
         }
         public async Task<bool> Create(CreateUser user)
         {
-            UserEntity Newuser = new UserEntity { email = user.email, password = user.password, name = user.name };
+            try 
+            {
+                UserEntity Newuser = new UserEntity { email = user.email, password = user.password, name = user.name };
 
-            _dbcontext.Add(Newuser);
-            await _dbcontext.SaveChangesAsync();
-            Console.WriteLine("shemodis");
-            return true;
+                _dbcontext.Add(Newuser);
+                await _dbcontext.SaveChangesAsync();
+
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
 
         }
 
