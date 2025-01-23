@@ -14,7 +14,7 @@ namespace todolist.src.Modules.User.Command
         }
         public Task<bool> Handle(UserDeleteCommand request, CancellationToken cancellationToken)
         {
-            return _userRepository.Delete(request);
+            return _userRepository.Delete();
         }
     }
 }

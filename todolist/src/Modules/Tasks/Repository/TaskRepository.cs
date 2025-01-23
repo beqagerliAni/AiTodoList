@@ -1,16 +1,10 @@
-﻿using System.Data.Entity;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using AiModel.src.Ai;
-using Newtonsoft.Json;
+using Ml_todolist.src.ML;
 using To_do_List.src.Modules.Task.Command;
 using To_do_List.src.Modules.Task.Entity;
-using To_do_List.src.Modules.Task.Module;
-using todolist.Helper.Auth.Service;
 using todolist.Helper.Jwt;
-using todolist.src.Ai.source.@interface;
 using todolist.src.Modules.Task.Command;
-using todolist.src.Modules.Tasks.Enum;
 
 namespace To_do_List.src.Modules.Tasks.Repository
 {
@@ -25,7 +19,7 @@ namespace To_do_List.src.Modules.Tasks.Repository
 
         public async Task<bool> Create(CreateTask module)
         {
-            JwtSecurityToken UserClaim = await JwtDecode.DecodeAuthToken();
+            JwtSecurityToken UserClaim = await JwtDecode.DecodeAuthToken("Authorization");
 
             string? idClaim = UserClaim.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
@@ -37,36 +31,36 @@ namespace To_do_List.src.Modules.Tasks.Repository
                 UserId = Guid.Parse(idClaim),
             };
             _dbContext.Task.Add(newTask);
-            if(module.text != null)
-            {
-                foreach (string text in module.text)
+                if(module.text != null)
                 {
+                    foreach (string text in module.text)
+                    {
+                        string level = MLModel.predictDificulty(text);
 
+                        Console.WriteLine(level);
 
-                    SourceType sourcetype = new SourceType { Task = text };
+                        TodoEntity toDo = new TodoEntity 
+                        { 
+                            TaskId = newTask.Id,
+                            text = text,
+                            dificultyLevel =  int.Parse(text)
+                        };
 
-                    string levelDificulty = AiModel.src.Ai.AiModel.MLModel(sourcetype);
+                        _dbContext.ToDo.Add(toDo);
+                        await _dbContext.SaveChangesAsync();
 
-                    DificultyEnum dificultyEnum = Enum.Parse<DificultyEnum>(levelDificulty);
-
-                    TodoEntity toDo = new TodoEntity { TaskId = newTask.Id, text = text, dificultyLevel = dificultyEnum };
-
-                    _dbContext.ToDo.Add(toDo);
-                    await _dbContext.SaveChangesAsync();
-                    Console.WriteLine(text);
-
+                    }
                 }
-            }
             await _dbContext.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<bool> Delete(DeleteTaskCommand module)
+        public async Task<bool> Delete(DeleteTaskCommand command)
         {
             TaskEntity? task = (from Task in _dbContext.Task
-                        where Task.Id == module.Id
-                        select new TaskEntity { Title = Task.Title, UserId = module.Id }).FirstOrDefault();
+                        where Task.Id == command.Guid
+                        select new TaskEntity { Title = Task.Title, UserId = command.Guid }).FirstOrDefault();
 
             if (task == null)
             {
@@ -79,7 +73,7 @@ namespace To_do_List.src.Modules.Tasks.Repository
             return true;
         }
 
-        public async Task<List<TaskDto>> FindAll()
+        public  Task<List<TaskDto>> FindAll()
         {
             List<TaskDto> tasksWithNestedTodo = (from task in _dbContext.Task
                                                  join todo in _dbContext.ToDo
@@ -96,14 +90,8 @@ namespace To_do_List.src.Modules.Tasks.Repository
                                                  }).ToList();
 
 
-            return tasksWithNestedTodo;
+            return System.Threading.Tasks.Task.FromResult(tasksWithNestedTodo);
         }
-
-        public TaskModule FindOne(string module)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> Update(UpdateTask module)
         {
             var task = _dbContext.Task.FirstOrDefault(t => t.Id == module.id);
@@ -115,7 +103,14 @@ namespace To_do_List.src.Modules.Tasks.Repository
                 foreach(updateTodo text in module.updateTodo)
                 {
                     Guid id = Guid.Parse(text.Id);
-                    var todo = _dbContext.ToDo.FirstOrDefault(t => t.Id == id);
+
+                    TodoEntity? todo = _dbContext.ToDo.FirstOrDefault(t => t.Id == id);
+
+                    if (todo == null)
+                    {
+                        return false;
+                    }
+
                     todo.text = text.text;
                     _dbContext.ToDo.Update(todo);
                 }

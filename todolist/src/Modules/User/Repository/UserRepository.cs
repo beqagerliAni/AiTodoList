@@ -1,7 +1,9 @@
 ﻿using System.Data.Entity;
+using System.Security.Claims;
 using To_do_List.src.Modules.User.Command;
 using To_do_List.src.Modules.User.Entity;
 using To_do_List.src.Modules.User.Model;
+using todolist.Helper.Jwt;
 using todolist.src.Modules.User.Command;
 
 namespace todolist.src.Modules.User.Repository
@@ -32,9 +34,19 @@ namespace todolist.src.Modules.User.Repository
 
         }
 
-        public async Task<bool> Delete(UserDeleteCommand id)
+        public async Task<bool> Delete()
         {
-            var user = _dbcontext.User.Find(id.Id);  
+            var claims = await JwtDecode.DecodeAuthToken("Authorization");
+
+            string? idClaim = claims.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (idClaim == null) { throw new Exception("user not found"); }
+
+            Guid id = Guid.Parse(idClaim);
+
+            UserEntity? user = await (from Users in _dbcontext.User
+                                      where Users.Id == id
+                                      select Users).FirstOrDefaultAsync();
             if (user == null)
             {
                 return false;
@@ -55,10 +67,18 @@ namespace todolist.src.Modules.User.Repository
            
         }
 
-        public  async Task<UserModel> FindOne(FindOneUserCommand id)
+        public  async Task<UserModel> FindOne()
         {
+            var claims =  await JwtDecode.DecodeAuthToken("Authorization");
+
+            string? idClaim = claims.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if(idClaim == null) { throw new Exception("user not found"); }
+
+            Guid id = Guid.Parse(idClaim);
+
             UserModel? users = await (from Users in _dbcontext.User
-                               where Users.Id == id.Id  
+                               where Users.Id == id 
                                select new UserModel(Users)).FirstOrDefaultAsync();
 
             if (users == null) { throw new Exception("user dose not exsists"); }
@@ -68,11 +88,7 @@ namespace todolist.src.Modules.User.Repository
 
         public async Task<bool> Update(UpdateUserCommand userCommand)
         {
-            Guid id = userCommand.Id;
-
-            FindOneUserCommand findOneUserCommand =  new FindOneUserCommand { Id = id };
-
-            UserModel User = await FindOne(findOneUserCommand);
+            UserModel User = await FindOne();
 
             _dbcontext.Update(User);
             await _dbcontext.SaveChangesAsync();

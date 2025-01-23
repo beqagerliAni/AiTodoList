@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "todolist", "todolist\todolist.csproj", "{43E77333-D596-474E-805E-3761C0CE7A20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLmodel", "Ml-todolist\MLmodel.csproj", "{D070C421-47C1-4747-81B3-B25F66525733}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{43E77333-D596-474E-805E-3761C0CE7A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43E77333-D596-474E-805E-3761C0CE7A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43E77333-D596-474E-805E-3761C0CE7A20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D070C421-47C1-4747-81B3-B25F66525733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D070C421-47C1-4747-81B3-B25F66525733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D070C421-47C1-4747-81B3-B25F66525733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D070C421-47C1-4747-81B3-B25F66525733}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

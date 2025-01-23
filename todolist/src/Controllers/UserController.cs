@@ -18,7 +18,7 @@ namespace todolist.src.Modules.User.Controller
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Create(CreateUser command)
         {
             var result = await _mediator.Send(command);
@@ -29,7 +29,7 @@ namespace todolist.src.Modules.User.Controller
         }
 
         [HttpGet]
-        [Authorize(Policy = "MyPolicy")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> GetAll()
         {
             var users = await _mediator.Send(new FindAllCommand());
@@ -39,22 +39,21 @@ namespace todolist.src.Modules.User.Controller
             return Ok(users);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
-        {
-            Guid guid = Guid.Parse(id);
-            
-            var user = await _mediator.Send(new FindOneUserCommand {Id =guid});
+        [HttpGet]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<IActionResult> Get()
+        {   
+            var user = await _mediator.Send(new FindOneUserCommand());
             if (user == null)
                 return NotFound(new { message = "User not found" });
 
             return Ok(user);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, UpdateUserCommand command)
+        [HttpPut]
+        [Authorize(Policy = "UserOnly")]
+        public async Task<IActionResult> Update(UpdateUserCommand command)
         {
-            command.Id = Guid.Parse(id);
             var result = await _mediator.Send(command);
             if (result)
                 return Ok(new { message = "User updated successfully" });
@@ -62,10 +61,11 @@ namespace todolist.src.Modules.User.Controller
                 return BadRequest(new { message = "Failed to update user" });
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete]
+        [Authorize(Policy = "UserOnly")]
+        public async Task<IActionResult> Delete()
         {
-            var result = await _mediator.Send(new UserDeleteCommand { Id = id });
+            var result = await _mediator.Send(new UserDeleteCommand());
             if (result)
                 return Ok(new { message = "User deleted successfully" });
             else

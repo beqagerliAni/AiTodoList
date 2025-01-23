@@ -5,6 +5,5 @@ namespace todolist.src.Modules.User.Command
 {
     public class UpdateUserCommand : CreateUser
     {
-        public required Guid Id { get; set; }
     }
 }

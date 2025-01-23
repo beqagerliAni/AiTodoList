@@ -7,12 +7,12 @@ namespace todolist.Helper.Jwt
     public  class JwtDecode
     { 
         public static IHttpContextAccessor? _contextAccessor {  get; set; }
-        public static Task<JwtSecurityToken> DecodeAuthToken()
+        public static Task<JwtSecurityToken> DecodeAuthToken(string headerName)
         {
             HttpContextAccessor httpContext = new HttpContextAccessor();
             if (httpContext.HttpContext == null) { throw new NotImplementedException(); }
 
-            string? token =  httpContext.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            string? token =  httpContext.HttpContext.Request.Headers[$"{headerName}"].FirstOrDefault()?.Split(" ").Last();
 
             if (string.IsNullOrEmpty(token))
                 throw new ArgumentNullException(nameof(token), "Token cannot be null or empty.");
@@ -37,7 +37,7 @@ namespace todolist.Helper.Jwt
                 throw new InvalidOperationException("Failed to decode the JWT token.", ex);
             }
         }
-        public static Task<string>  Decode(string token)
+        public static Task<string>  DecodeToken(string token)
         {
             if (string.IsNullOrEmpty(token))
                 throw new ArgumentNullException(nameof(token), "Token cannot be null or empty.");

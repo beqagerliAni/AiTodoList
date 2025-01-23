@@ -25,15 +25,24 @@ public class CreateUserValidator : AbstractValidator<CreateUser>
 
         RuleFor(u => u.password)
             .NotEmpty()
-            .WithMessage("password must not be empty")
-            .Matches(@"^(?=.*[A-Z])(?=.*\d).+$")
-            .WithMessage("Password must contain at least one uppercase letter and one number.");
+            .WithMessage("New password is required.")
+            .MinimumLength(8)
+            .WithMessage("New password must be at least 8 characters long.")
+            .Matches("[A-Z]")
+            .WithMessage("New password must contain at least one uppercase letter.")
+            .Matches("[a-z]")
+            .WithMessage("New password must contain at least one lowercase letter.")
+            .Matches("[0-9]")
+            .WithMessage("New password must contain at least one digit.")
+            .Matches("[^a-zA-Z0-9]")
+            .WithMessage("New password must contain at least one special character.");
 
         RuleFor(u => u.email)
-            .NotEmpty()
-            .WithMessage("password must not be empty")
+           .NotEmpty()
+            .WithMessage("email must not be empty")
             .EmailAddress()
-            .WithMessage("emai must be an email");
+            .WithMessage("email must be valid");
+
 
         RuleFor(u => u.rePassword)
             .NotEmpty()

@@ -1,0 +1,6 @@
+@Ml_todolist_HostAddress = http://localhost:5133
+
+GET {{Ml_todolist_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

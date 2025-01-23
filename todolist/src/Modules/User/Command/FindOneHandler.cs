@@ -14,7 +14,7 @@ namespace todolist.src.Modules.User.Command
         }
         public Task<UserModel> Handle(FindOneUserCommand request, CancellationToken cancellationToken)
         {
-            return _userRepository.FindOne(request);
+            return _userRepository.FindOne();
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿using MediatR;
-using To_do_List.src.Modules.Task.Command;
+﻿using FluentValidation;
+using MediatR;
+using todolist.src.Modules.Task.Command;
 
 namespace todolist.src.Modules.Task.Command
 {
@@ -14,4 +15,13 @@ public  class updateTodo
 {
     public string Id { get; set; } =string.Empty;
     public string text { get; set; } = string.Empty;
+}
+public class UpdateTaskValidator : AbstractValidator<UpdateTask>
+{
+    public UpdateTaskValidator()
+    {
+        RuleFor(t => t.Title)
+             .NotEmpty()
+             .WithMessage("title must not be emty");
+    }
 }

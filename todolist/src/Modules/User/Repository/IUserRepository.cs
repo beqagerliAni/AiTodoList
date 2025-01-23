@@ -7,10 +7,10 @@ namespace todolist.src.Modules.User.Repository
 {
     public interface IUserRepository
     {
-        public Task<bool> Create(CreateUser user);
-        public Task<bool> Delete(UserDeleteCommand id);
-        public Task<bool> Update(UpdateUserCommand user);
-        public Task<UserModel> FindOne(FindOneUserCommand id);
+        public Task<bool> Create(CreateUser command);
+        public Task<bool> Delete();
+        public Task<bool> Update(UpdateUserCommand command);
+        public Task<UserModel> FindOne();
         public Task<List<UserModel>> FindAll();
         public UserModel findByEmail(string email);
     }

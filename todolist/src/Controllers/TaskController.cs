@@ -1,8 +1,6 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using To_do_List.src.Modules.Task.Command;
-using To_do_List.src.Modules.Task.Module;
 using todolist.src.Modules.Task.Command;
 using Microsoft.AspNetCore.Authorization;
 
@@ -20,7 +18,7 @@ namespace todolist.src.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Policy = "UserOnly")]
         [Route("create")]
         public async Task<IActionResult> Create([FromBody] CreateTask command)
         {
@@ -34,10 +32,11 @@ namespace todolist.src.Controllers
 
         [HttpDelete]
         [Route("delete/{id}")]
+        [Authorize(Policy = "UserOnly")]
         public async Task<IActionResult> Delete([FromRoute] string id)
         {
             Guid guid = Guid.Parse(id);
-            var result = await _mediator.Send(new DeleteTaskCommand { Id = guid });
+            var result = await _mediator.Send(new DeleteTaskCommand { Guid = guid });
             if (result)
             {
                 return Ok("Task deleted successfully");
@@ -47,6 +46,7 @@ namespace todolist.src.Controllers
 
         [HttpGet]
         [Route("all")]
+        [Authorize(Policy = "UserOnly")]
         public async Task<IActionResult> GetAll()
         {
             var tasks = await _mediator.Send(new FindAllCommand());
@@ -55,6 +55,7 @@ namespace todolist.src.Controllers
 
         [HttpPut]
         [Route("update/{id}")]
+        [Authorize(Policy = "UserOnly")]
         public async Task<IActionResult> Update([FromBody] UpdateTask command, [FromRoute] string id)
         {
             command.id = Guid.Parse(id);

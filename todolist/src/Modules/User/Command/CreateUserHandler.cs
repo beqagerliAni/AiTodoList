@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using todolist.src.Modules.User.Repository;
 
 namespace To_do_List.src.Modules.User.Command
